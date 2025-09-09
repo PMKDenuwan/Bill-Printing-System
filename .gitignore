@@ -1,0 +1,12 @@
+# Node modules (too big for GitHub)
+node_modules/
+
+# Electron build outputs
+dist/
+out/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
