@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zyentra Apparel Store - Professional Bill System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #059669;
+            --danger-color: #dc2626;
+            --warning-color: #d97706;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            border-left: 6px solid var(--primary-color);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden; /* ensures image stays inside rounded box */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* keeps proportions and fills the box */
+        }
+
+
+        .company-details h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .company-details p {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+
+        .shop-info {
+            background: var(--gray-50);
+            padding: 24px;
+            border-radius: 12px;
+            border: 2px solid var(--gray-200);
+        }
+
+        .shop-info h3 {
+            color: var(--primary-color);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .shop-input {
+            width: 300px;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .shop-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--gray-200);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .photo-upload-area {
+            border: 3px dashed var(--gray-300);
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            background: var(--gray-50);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .photo-upload-area:hover {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .photo-upload-area.dragover {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: var(--gray-400);
+            margin-bottom: 16px;
+        }
+
+        .upload-text {
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .photo-preview {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin: 16px auto;
+        }
+
+        .size-selection {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .size-option {
+            padding: 12px;
+            border: 2px solid var(--gray-300);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .size-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .size-option.selected {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .size-details {
+            display: none;
+            margin-top: 24px;
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .size-details.show {
+            display: block;
+        }
+
+        .size-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr 1fr;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .size-label {
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .size-input {
+            padding: 8px 12px;
+            border: 2px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .size-total {
+            font-weight: 700;
+            color: var(--gray-700);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-300);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .items-table th {
+            background: var(--gray-100);
+            color: var(--gray-800);
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .items-table td {
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--gray-200);
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+        .items-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .item-photo {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--gray-200);
+        }
+
+        .size-breakdown {
+            font-size: 12px;
+            color: var(--gray-600);
+            line-height: 1.4;
+        }
+
+        /* Size details sub-table styling */
+        .size-subtable {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .size-subtable th {
+            background: var(--gray-100);
+            padding: 6px 8px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--gray-700);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .size-subtable td {
+            padding: 6px 8px;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-100);
+            color: var(--gray-800);
+        }
+
+        .size-subtable tr:last-child td {
+            border-bottom: none;
+        }
+
+        .total-section {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 24px;
+            border-left: 6px solid var(--success-color);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .total-row:last-child {
+            margin-bottom: 0;
+            padding-top: 12px;
+            border-top: 2px solid var(--gray-200);
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--success-color);
+        }
+
+        .actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .invoice-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: none;
+            max-width: 210mm;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Professional Invoice Header - Single unified section */
+        .invoice-header {
+    display: grid;
+    grid-template-columns: 80px 1fr auto; /* Logo | Company Details | Meta */
+    gap: 20px;
+    align-items: start;
+    padding: 20px 0;
+    border-bottom: 3px solid var(--primary-color);
+    margin-bottom: 30px;
+}
+
+.invoice-logo {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.invoice-logo::after {
+    content: "ZY";
+}
+
+.invoice-company-details h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--gray-900);
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.invoice-tagline {
+    font-size: 14px;
+    color: var(--primary-color);
+    font-style: italic;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.invoice-address {
+    color: var(--gray-600);
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.invoice-meta {
+    text-align: right;
+    background: var(--gray-50);
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid var(--gray-200);
+    min-width: 250px;
+}
+
+.invoice-meta h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.invoice-meta-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .invoice-table th {
+            background: var(--primary-color);
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .invoice-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 13px;
+            vertical-align: top;
+        }
+
+        .invoice-table tr:nth-child(even) {
+            background: var(--gray-50);
+        }
+
+        .invoice-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .invoice-photo {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--gray-200);
+        }
+
+        /* Invoice size details table */
+        .invoice-size-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--gray-300);
+        }
+
+        .invoice-size-table th {
+            background: var(--gray-200);
+            padding: 4px 6px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--gray-800);
+            font-size: 10px;
+        }
+
+        .invoice-size-table td {
+            padding: 4px 6px;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-200);
+            color: var(--gray-800);
+        }
+
+        .invoice-size-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .invoice-totals {
+            margin-top: 25px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .totals-box {
+            background: var(--gray-50);
+            padding: 20px;
+            border-radius: 8px;
+            min-width: 300px;
+            border: 2px solid var(--gray-200);
+        }
+
+        .total-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .grand-total {
+            border-top: 2px solid var(--primary-color);
+            padding-top: 12px;
+            margin-top: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .settle-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--gray-50);
+            border-radius: 8px;
+            border: 2px solid var(--gray-200);
+        }
+
+        .settle-text {
+            font-size: 14px;
+            color: var(--gray-700);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settle-line {
+            border-bottom: 2px solid var(--gray-400);
+            flex: 1;
+            height: 2px;
+        }
+
+        .invoice-footer {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            background: var(--gray-50);
+            border-radius: 8px;
+            color: var(--gray-600);
+            font-size: 12px;
+            line-height: 1.6;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--gray-500);
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .alert {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-success {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        @media print {
+    body * {
+        visibility: hidden;
+    }
+    .invoice-section, .invoice-section * {
+        visibility: visible;
+    }
+    .invoice-section {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none;
+        margin: 0;
+        padding: 20px;
+    }
+    .actions {
+        display: none !important;
+    }
+    
+    /* Fix: Maintain the three-column grid layout in print */
+    .invoice-header {
+        display: grid !important;
+        grid-template-columns: 80px 1fr 250px !important; /* Fixed widths for print */
+        gap: 20px !important;
+        align-items: start !important;
+        page-break-inside: avoid; /* Prevent header from breaking across pages */
+    }
+    
+    /* Ensure logo stays in place */
+    .invoice-logo {
+        width: 80px !important;
+        height: 80px !important;
+    }
+    
+    /* Ensure meta box maintains its styling */
+    .invoice-meta {
+        text-align: right !important;
+        background: var(--gray-50) !important;
+        padding: 20px !important;
+        border-radius: 8px !important;
+        border: 2px solid var(--gray-200) !important;
+        min-width: 250px !important;
+    }
+}
+
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .invoice-header {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .invoice-meta {
+                text-align: left;
+            }
+
+            .invoice-company-section {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">
+                        <img src="Zyentra_Logo.png" alt="Zyentra Logo" />
+                    </div>
+                    <div class="company-details">
+                        <h1>Zyentra Apparel Store</h1>
+                        <p>Professional Bill Printing System</p>
+                    </div>
+                </div>
+                <div class="shop-info">
+                    <h3>Cloth Shop Name</h3>
+                    <input type="text" id="clothShopName" class="shop-input" value="Zyentra Apparel Store" placeholder="Enter shop name">
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Item Entry Form -->
+            <div class="card">
+                <div class="card-header">
+                    <span style="font-size: 20px;">📝</span>
+                    <h2>Add New Item</h2>
+                </div>
+
+                <form id="itemForm">
+                    <div class="form-group">
+                        <label class="form-label">Dress Code</label>
+                        <input type="text" id="dressCode" class="form-input" placeholder="e.g., D001" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Dress Name</label>
+                        <input type="text" id="dressName" class="form-input" placeholder="e.g., Off White Top" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Pre-Size Price (LKR)</label>
+                        <input type="number" id="preSize" class="form-input" placeholder="e.g., 1000" min="0" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Dress Photo</label>
+                        <div class="photo-upload-area" id="photoUpload">
+                            <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                            <div class="upload-icon">📷</div>
+                            <div class="upload-text">Click or drag image here</div>
+                            <img id="photoPreview" class="photo-preview" style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Available Sizes</label>
+                        <div class="size-selection">
+                            <div class="size-option" data-size="S">S</div>
+                            <div class="size-option" data-size="M">M</div>
+                            <div class="size-option" data-size="L">L</div>
+                            <div class="size-option" data-size="XL">XL</div>
+                            <div class="size-option" data-size="2XL">2XL</div>
+                            <div class="size-option" data-size="Free-size">Free-Size</div>
+                        </div>
+                        
+                        <div class="size-details" id="sizeDetails">
+                            <div style="display: grid; grid-template-columns: 80px 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; font-weight: 700; color: var(--gray-700);">
+                                <div>Size</div>
+                                <div>Quantity</div>
+                                <div>Price (LKR)</div>
+                                <div>Total</div>
+                            </div>
+                            <div id="sizeRows"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span>➕</span> Add Item to Bill
+                    </button>
+                </form>
+            </div>
+
+            <!-- Items List -->
+            <div class="card">
+                <div class="card-header">
+                    <span style="font-size: 20px;">🛍️</span>
+                    <h2>Bill Items</h2>
+                    <div style="margin-left: auto;">
+                        <span style="background: var(--primary-color); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">
+                            Items: <span id="totalItems">0</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="items-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Photo</th>
+                                <th>Sizes</th>
+                                <th>Total Qty</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="itemsTableBody">
+                            <tr>
+                                <td colspan="7" class="empty-state">
+                                    <div class="empty-icon">📦</div>
+                                    <div>No items added yet</div>
+                                    <small style="color: var(--gray-400);">Start adding items to create your bill</small>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="total-section">
+                    <div class="total-row">
+                        <span>Total Items:</span>
+                        <span id="summaryTotalItems">0</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Total Quantity:</span>
+                        <span id="summaryTotalQty">0</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Grand Total:</span>
+                        <span>LKR <span id="grandTotal">0.00</span></span>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="generateBill" class="btn btn-success" disabled style="flex: 1;">
+                        <span>📄</span> Generate Bill
+                    </button>
+                    <button id="clearAll" class="btn btn-outline">
+                        <span>🗑️</span> Clear All
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Professional Invoice Section -->
+        <div class="invoice-section" id="invoiceSection">
+            <!-- Unified Professional Header -->
+            <div class="invoice-header">
+    <div class="logo">
+        <img src="Zyentra_Logo.png" alt="Zyentra Logo" />
+    </div>
+
+    <div class="invoice-company-details">
+        <h1>Zyentra Apparel Store</h1>
+        <div class="invoice-tagline">"Defining Style – Redefining You"</div>
+        <div class="invoice-address">
+            Matara<br>
+            Telephone: 0789822147
+        </div>
+    </div>
+
+    <div class="invoice-meta">
+        <h2>INVOICE</h2>
+        <div class="invoice-meta-item">
+            <span class="invoice-meta-label">Invoice No:</span>
+            <span class="invoice-meta-value" id="invoiceNumber">INV-2025-001</span>
+        </div>
+        <div class="invoice-meta-item">
+            <span class="invoice-meta-label">Date:</span>
+            <span class="invoice-meta-value" id="invoiceDate">04/09/2025</span>
+        </div>
+        <div class="invoice-meta-item">
+            <span class="invoice-meta-label">Shop:</span>
+            <span class="invoice-meta-value" id="invoiceShop">Zyentra Apparel Store</span>
+        </div>
+    </div>
+</div>
+
+
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Dress Name</th>
+                        <th>Photo</th>
+                        <th>Size Details</th>
+                        <th>Total Qty</th>
+                        <th>Amount (LKR)</th>
+                    </tr>
+                </thead>
+                <tbody id="invoiceTableBody">
+                </tbody>
+            </table>
+
+            <div class="invoice-totals">
+                <div class="totals-box">
+                    <div class="total-line">
+                        <span>Total Items:</span>
+                        <span id="invoiceTotalItems">0</span>
+                    </div>
+                    <div class="total-line">
+                        <span>Total Quantity:</span>
+                        <span id="invoiceTotalQty">0</span>
+                    </div>
+                    <div class="total-line grand-total">
+                        <span>Grand Total:</span>
+                        <span>LKR <span id="invoiceGrandTotal">0.00</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settlement Section -->
+            <div class="settle-section">
+                <div class="settle-text">
+                    <span>Settle On:</span>
+                    <div class="settle-line"></div>
+                </div>
+            </div>
+
+            <div class="invoice-footer">
+                <strong>©2025 Zyentra</strong><br>
+                <strong>Zyentra Apparel Store</strong><br>
+                <em>"Defining Style – Redefining You"</em><br>
+                Telephone: 0789822147
+            </div>
+
+            <div class="actions">
+                <button id="printBill" class="btn btn-primary">
+                    <span>🖨️</span> Print Bill
+                </button>
+                <button id="savePDF" class="btn btn-success">
+                    <span>💾</span> Save as PDF
+                </button>
+                <button id="backToForm" class="btn btn-outline">
+                    <span>⬅️</span> Back to Form
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       // Application State
+       let billItems = [];
+       let invoiceCounter = parseInt(localStorage.getItem('invoiceCounter') || '0');
+       let currentPhotoData = null;
+       let selectedSizes = [];
+
+       // DOM Elements
+       let itemForm, photoUpload, photoInput, photoPreview, sizeOptions, sizeDetails, sizeRows, itemsTableBody, generateBillBtn, clearAllBtn, invoiceSection;
+
+       // Initialize when DOM is loaded
+       document.addEventListener('DOMContentLoaded', function() {
+           // Get DOM Elements
+           itemForm = document.getElementById('itemForm');
+           photoUpload = document.getElementById('photoUpload');
+           photoInput = document.getElementById('photoInput');
+           photoPreview = document.getElementById('photoPreview');
+           sizeOptions = document.querySelectorAll('.size-option');
+           sizeDetails = document.getElementById('sizeDetails');
+           sizeRows = document.getElementById('sizeRows');
+           itemsTableBody = document.getElementById('itemsTableBody');
+           generateBillBtn = document.getElementById('generateBill');
+           clearAllBtn = document.getElementById('clearAll');
+           invoiceSection = document.getElementById('invoiceSection');
+
+           initializeEventListeners();
+           updateSummary();
+       });
+
+       function initializeEventListeners() {
+           // Photo Upload
+           if (photoUpload) {
+               photoUpload.addEventListener('click', () => {
+                   if (photoInput) photoInput.click();
+               });
+               photoUpload.addEventListener('dragover', handleDragOver);
+               photoUpload.addEventListener('dragleave', handleDragLeave);
+               photoUpload.addEventListener('drop', handleDrop);
+           }
+           
+           if (photoInput) {
+               photoInput.addEventListener('change', handlePhotoSelect);
+           }
+
+           // Size Selection
+           if (sizeOptions) {
+               sizeOptions.forEach(option => {
+                   option.addEventListener('click', () => toggleSize(option));
+               });
+           }
+
+           // Form Submission
+           if (itemForm) {
+               itemForm.addEventListener('submit', handleFormSubmit);
+           }
+
+           // Actions
+           if (generateBillBtn) {
+               generateBillBtn.addEventListener('click', generateInvoice);
+           }
+           if (clearAllBtn) {
+               clearAllBtn.addEventListener('click', clearAllItems);
+           }
+
+           const printBtn = document.getElementById('printBill');
+           const savePDFBtn = document.getElementById('savePDF');
+           const backBtn = document.getElementById('backToForm');
+
+           if (printBtn) {
+               printBtn.addEventListener('click', () => window.print());
+           }
+           if (savePDFBtn) {
+               savePDFBtn.addEventListener('click', savePDF);
+           }
+           if (backBtn) {
+               backBtn.addEventListener('click', backToForm);
+           }
+
+           // Pre-size price auto-fill
+           const preSizeInput = document.getElementById('preSize');
+           if (preSizeInput) {
+               preSizeInput.addEventListener('input', autoFillSizePrices);
+           }
+       }
+
+       // Auto-fill size prices when pre-size is changed
+       function autoFillSizePrices() {
+           const preSizeValue = document.getElementById('preSize').value;
+           if (preSizeValue && sizeRows) {
+               const priceInputs = sizeRows.querySelectorAll('input[data-type="price"]');
+               priceInputs.forEach(input => {
+                   if (!input.value || input.value === '1000') { // Only auto-fill if empty or default
+                       input.value = preSizeValue;
+                       const size = input.getAttribute('data-size') || input.dataset.size;
+                       calculateSizeTotalBySize(size);
+                   }
+               });
+           }
+       }
+
+       // Photo Upload Functions
+       function handleDragOver(e) {
+           e.preventDefault();
+           e.stopPropagation();
+           photoUpload.classList.add('dragover');
+       }
+
+       function handleDragLeave(e) {
+           e.preventDefault();
+           e.stopPropagation();
+           photoUpload.classList.remove('dragover');
+       }
+
+       function handleDrop(e) {
+           e.preventDefault();
+           e.stopPropagation();
+           photoUpload.classList.remove('dragover');
+           
+           const files = e.dataTransfer.files;
+           if (files.length > 0) {
+               const file = files[0];
+               if (file && file.type.startsWith('image/')) {
+                   processPhotoFile(file);
+               } else {
+                   showAlert('Please select a valid image file.', 'error');
+               }
+           }
+       }
+
+       function handlePhotoSelect(e) {
+           const file = e.target.files[0];
+           if (file) {
+               if (file.type.startsWith('image/')) {
+                   processPhotoFile(file);
+               } else {
+                   showAlert('Please select a valid image file.', 'error');
+                   e.target.value = '';
+               }
+           }
+       }
+
+       function processPhotoFile(file) {
+           const reader = new FileReader();
+           reader.onload = function(e) {
+               currentPhotoData = e.target.result;
+               
+               if (photoPreview) {
+                   photoPreview.src = currentPhotoData;
+                   photoPreview.style.display = 'block';
+               }
+               
+               const uploadText = photoUpload.querySelector('.upload-text');
+               const uploadIcon = photoUpload.querySelector('.upload-icon');
+               
+               if (uploadText) {
+                   uploadText.textContent = file.name;
+               }
+               if (uploadIcon) {
+                   uploadIcon.style.display = 'none';
+               }
+               
+               showAlert('Photo uploaded successfully!', 'success');
+           };
+           reader.onerror = function() {
+               showAlert('Error reading the image file.', 'error');
+           };
+           reader.readAsDataURL(file);
+       }
+
+       // Size Selection Functions
+       function toggleSize(option) {
+           const size = option.getAttribute('data-size') || option.dataset.size;
+           
+           if (option.classList.contains('selected')) {
+               option.classList.remove('selected');
+               selectedSizes = selectedSizes.filter(s => s !== size);
+           } else {
+               option.classList.add('selected');
+               selectedSizes.push(size);
+           }
+           
+           updateSizeDetails();
+       }
+
+       function updateSizeDetails() {
+           if (!sizeDetails || !sizeRows) return;
+
+           if (selectedSizes.length === 0) {
+               sizeDetails.classList.remove('show');
+               return;
+           }
+
+           sizeDetails.classList.add('show');
+           
+           const preSizeValue = document.getElementById('preSize').value || '1000';
+           
+           const sizeRowsHTML = selectedSizes.map(size => `
+               <div class="size-row">
+                   <div class="size-label">${size}</div>
+                   <input type="number" class="size-input" data-size="${size}" data-type="quantity" 
+                          placeholder="Qty" min="1" value="1" required>
+                   <input type="number" class="size-input" data-size="${size}" data-type="price" 
+                          placeholder="Price" min="0" step="0.01" value="${preSizeValue}" required>
+                   <div class="size-total" data-size="${size}">${preSizeValue}</div>
+               </div>
+           `).join('');
+
+           sizeRows.innerHTML = sizeRowsHTML;
+
+           // Add event listeners for calculation
+           const sizeInputs = sizeRows.querySelectorAll('.size-input');
+           sizeInputs.forEach(input => {
+               input.addEventListener('input', calculateSizeTotal);
+               input.addEventListener('change', calculateSizeTotal);
+           });
+
+           // Initial calculation for each size
+           selectedSizes.forEach(size => {
+               calculateSizeTotalBySize(size);
+           });
+       }
+
+       function calculateSizeTotal(e) {
+           const size = e.target.getAttribute('data-size') || e.target.dataset.size;
+           calculateSizeTotalBySize(size);
+       }
+
+       function calculateSizeTotalBySize(size) {
+           const qtyInput = sizeRows.querySelector(`input[data-size="${size}"][data-type="quantity"]`);
+           const priceInput = sizeRows.querySelector(`input[data-size="${size}"][data-type="price"]`);
+           const totalElement = sizeRows.querySelector(`.size-total[data-size="${size}"]`);
+
+           if (qtyInput && priceInput && totalElement) {
+               const qty = parseFloat(qtyInput.value) || 0;
+               const price = parseFloat(priceInput.value) || 0;
+               const total = qty * price;
+               totalElement.textContent = total.toFixed(2);
+           }
+       }
+
+       // Form Submission
+       function handleFormSubmit(e) {
+           e.preventDefault();
+
+           // Validation
+           if (!currentPhotoData) {
+               showAlert('Please upload a photo for the dress item.', 'error');
+               return;
+           }
+
+           if (selectedSizes.length === 0) {
+               showAlert('Please select at least one size.', 'error');
+               return;
+           }
+
+           const dressCodeEl = document.getElementById('dressCode');
+           const dressNameEl = document.getElementById('dressName');
+           const preSizeEl = document.getElementById('preSize');
+
+           if (!dressCodeEl || !dressCodeEl.value.trim()) {
+               showAlert('Please enter a dress code.', 'error');
+               return;
+           }
+
+           if (!dressNameEl || !dressNameEl.value.trim()) {
+               showAlert('Please enter a dress name.', 'error');
+               return;
+           }
+
+           if (!preSizeEl || !preSizeEl.value) {
+               showAlert('Please enter a pre-size price.', 'error');
+               return;
+           }
+
+           // Collect size data
+           const sizeData = [];
+           let totalQuantity = 0;
+           let totalAmount = 0;
+
+           selectedSizes.forEach(size => {
+               const qtyInput = sizeRows.querySelector(`input[data-size="${size}"][data-type="quantity"]`);
+               const priceInput = sizeRows.querySelector(`input[data-size="${size}"][data-type="price"]`);
+               
+               if (qtyInput && priceInput) {
+                   const qty = parseInt(qtyInput.value) || 0;
+                   const price = parseFloat(priceInput.value) || 0;
+                   const total = qty * price;
+
+                   if (qty > 0 && price > 0) {
+                       sizeData.push({ size, quantity: qty, price, total });
+                       totalQuantity += qty;
+                       totalAmount += total;
+                   }
+               }
+           });
+
+           if (sizeData.length === 0) {
+               showAlert('Please enter valid quantity and price for at least one size.', 'error');
+               return;
+           }
+
+           // Create item
+           const item = {
+               id: Date.now(),
+               dressCode: dressCodeEl.value.trim(),
+               dressName: dressNameEl.value.trim(),
+               preSize: parseFloat(preSizeEl.value),
+               photo: currentPhotoData,
+               sizes: sizeData,
+               totalQuantity,
+               totalAmount
+           };
+
+           billItems.push(item);
+           updateItemsTable();
+           updateSummary();
+           resetForm();
+           showAlert('Item added successfully!', 'success');
+       }
+
+       function resetForm() {
+           if (itemForm) {
+               itemForm.reset();
+           }
+           
+           currentPhotoData = null;
+           selectedSizes = [];
+           
+           // Reset photo upload
+           if (photoPreview) {
+               photoPreview.style.display = 'none';
+           }
+           
+           const uploadText = photoUpload?.querySelector('.upload-text');
+           const uploadIcon = photoUpload?.querySelector('.upload-icon');
+           
+           if (uploadText) {
+               uploadText.textContent = 'Click or drag image here';
+           }
+           if (uploadIcon) {
+               uploadIcon.style.display = 'block';
+           }
+           
+           // Reset size selection
+           if (sizeOptions) {
+               sizeOptions.forEach(option => option.classList.remove('selected'));
+           }
+           if (sizeDetails) {
+               sizeDetails.classList.remove('show');
+           }
+       }
+
+       // Update Items Table
+       function updateItemsTable() {
+           if (!itemsTableBody) return;
+
+           if (billItems.length === 0) {
+               itemsTableBody.innerHTML = `
+                   <tr>
+                       <td colspan="7" class="empty-state">
+                           <div class="empty-icon">📦</div>
+                           <div>No items added yet</div>
+                           <small style="color: var(--gray-400);">Start adding items to create your bill</small>
+                       </td>
+                   </tr>
+               `;
+               if (generateBillBtn) {
+                   generateBillBtn.disabled = true;
+               }
+               return;
+           }
+
+           itemsTableBody.innerHTML = billItems.map(item => `
+               <tr>
+                   <td><strong>${item.dressCode}</strong></td>
+                   <td>${item.dressName}</td>
+                   <td><img src="${item.photo}" class="item-photo" alt="Dress"></td>
+                   <td>
+                       <table class="size-subtable">
+                           <thead>
+                               <tr>
+                                   <th>Size</th>
+                                   <th>Qty</th>
+                                   <th>Price</th>
+                                   <th>Total</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               ${item.sizes.map(s => `
+                                   <tr>
+                                       <td><strong>${s.size}</strong></td>
+                                       <td>${s.quantity}</td>
+                                       <td>${s.price.toFixed(2)}</td>
+                                       <td>${s.total.toFixed(2)}</td>
+                                   </tr>
+                               `).join('')}
+                           </tbody>
+                       </table>
+                   </td>
+                   <td><strong>${item.totalQuantity}</strong></td>
+                   <td><strong>LKR ${item.totalAmount.toFixed(2)}</strong></td>
+                   <td>
+                       <button class="btn btn-danger" onclick="removeItem(${item.id})">
+                           🗑️
+                       </button>
+                   </td>
+               </tr>
+           `).join('');
+
+           if (generateBillBtn) {
+               generateBillBtn.disabled = false;
+           }
+       }
+
+       function removeItem(itemId) {
+           if (confirm('Are you sure you want to remove this item?')) {
+               billItems = billItems.filter(item => item.id !== itemId);
+               updateItemsTable();
+               updateSummary();
+               showAlert('Item removed successfully!', 'success');
+           }
+       }
+
+       // Update Summary
+       function updateSummary() {
+           const totalItems = billItems.length;
+           const totalQty = billItems.reduce((sum, item) => sum + item.totalQuantity, 0);
+           const grandTotal = billItems.reduce((sum, item) => sum + item.totalAmount, 0);
+
+           const totalItemsEl = document.getElementById('totalItems');
+           const summaryTotalItemsEl = document.getElementById('summaryTotalItems');
+           const summaryTotalQtyEl = document.getElementById('summaryTotalQty');
+           const grandTotalEl = document.getElementById('grandTotal');
+
+           if (totalItemsEl) totalItemsEl.textContent = totalItems;
+           if (summaryTotalItemsEl) summaryTotalItemsEl.textContent = totalItems;
+           if (summaryTotalQtyEl) summaryTotalQtyEl.textContent = totalQty;
+           if (grandTotalEl) grandTotalEl.textContent = grandTotal.toFixed(2);
+       }
+
+       // Clear All Items
+       function clearAllItems() {
+           if (confirm('Are you sure you want to clear all items? This action cannot be undone.')) {
+               billItems = [];
+               updateItemsTable();
+               updateSummary();
+               showAlert('All items cleared successfully!', 'success');
+           }
+       }
+
+       // Generate Invoice
+       function generateInvoice() {
+           if (billItems.length === 0) {
+               showAlert('Please add at least one item to generate a bill.', 'error');
+               return;
+           }
+
+           invoiceCounter++;
+           localStorage.setItem('invoiceCounter', invoiceCounter.toString());
+
+           const invoiceNumber = `INV-${new Date().getFullYear()}-${invoiceCounter.toString().padStart(3, '0')}`;
+           const currentDate = new Date().toLocaleDateString('en-GB');
+           const clothShopEl = document.getElementById('clothShopName');
+           const clothShop = clothShopEl ? clothShopEl.value : 'Zyentra Apparel Store';
+
+           // Update invoice header
+           const invoiceNumberEl = document.getElementById('invoiceNumber');
+           const invoiceDateEl = document.getElementById('invoiceDate');
+           const invoiceShopEl = document.getElementById('invoiceShop');
+
+           if (invoiceNumberEl) invoiceNumberEl.textContent = invoiceNumber;
+           if (invoiceDateEl) invoiceDateEl.textContent = currentDate;
+           if (invoiceShopEl) invoiceShopEl.textContent = clothShop;
+
+           // Update invoice table
+           const invoiceTableBody = document.getElementById('invoiceTableBody');
+           if (invoiceTableBody) {
+               invoiceTableBody.innerHTML = billItems.map(item => `
+                   <tr>
+                       <td><strong>${item.dressCode}</strong></td>
+                       <td>${item.dressName}</td>
+                       <td><img src="${item.photo}" class="invoice-photo" alt="Dress"></td>
+                       <td>
+                           <table class="invoice-size-table">
+                               <thead>
+                                   <tr>
+                                       <th>Size</th>
+                                       <th>Qty</th>
+                                       <th>Price</th>
+                                       <th>Total</th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                   ${item.sizes.map(s => `
+                                       <tr>
+                                           <td><strong>${s.size}</strong></td>
+                                           <td>${s.quantity}</td>
+                                           <td>${s.price.toFixed(2)}</td>
+                                           <td>${s.total.toFixed(2)}</td>
+                                       </tr>
+                                   `).join('')}
+                               </tbody>
+                           </table>
+                       </td>
+                       <td><strong>${item.totalQuantity}</strong></td>
+                       <td><strong>LKR ${item.totalAmount.toFixed(2)}</strong></td>
+                   </tr>
+               `).join('');
+           }
+
+           // Update invoice totals
+           const totalItems = billItems.length;
+           const totalQty = billItems.reduce((sum, item) => sum + item.totalQuantity, 0);
+           const grandTotal = billItems.reduce((sum, item) => sum + item.totalAmount, 0);
+
+           const invoiceTotalItemsEl = document.getElementById('invoiceTotalItems');
+           const invoiceTotalQtyEl = document.getElementById('invoiceTotalQty');
+           const invoiceGrandTotalEl = document.getElementById('invoiceGrandTotal');
+
+           if (invoiceTotalItemsEl) invoiceTotalItemsEl.textContent = totalItems;
+           if (invoiceTotalQtyEl) invoiceTotalQtyEl.textContent = totalQty;
+           if (invoiceGrandTotalEl) invoiceGrandTotalEl.textContent = grandTotal.toFixed(2);
+
+           // Show invoice
+           if (invoiceSection) {
+               invoiceSection.style.display = 'block';
+               invoiceSection.scrollIntoView({ behavior: 'smooth' });
+           }
+       }
+
+       // PDF Save (placeholder for Electron implementation)
+       async function savePDF() {
+    if (typeof require !== 'undefined') {
+        try {
+            const { ipcRenderer } = require('electron');
+            
+            // Prepare invoice data
+            const invoiceData = {
+                invoiceNumber: document.getElementById('invoiceNumber')?.textContent || '',
+                invoiceDate: document.getElementById('invoiceDate')?.textContent || '',
+                shopName: document.getElementById('invoiceShop')?.textContent || '',
+                items: billItems,
+                totals: {
+                    totalItems: billItems.length,
+                    totalQuantity: billItems.reduce((sum, item) => sum + item.totalQuantity, 0),
+                    grandTotal: billItems.reduce((sum, item) => sum + item.totalAmount, 0)
+                }
+            };
+            
+            const result = await ipcRenderer.invoke('generate-pdf', invoiceData);
+            if (result.success) {
+                showAlert(`PDF saved successfully to: ${result.filePath}`, 'success');
+            } else {
+                showAlert('Error saving PDF: ' + result.error, 'error');
+            }
+        } catch (err) {
+            showAlert('Error generating PDF: ' + err.message, 'error');
+        }
+    } else {
+        showAlert('PDF export is available in the Electron desktop version. Use Print option for now.', 'success');
+    }
+}
+
+       // Back to Form
+       function backToForm() {
+           if (invoiceSection) {
+               invoiceSection.style.display = 'none';
+           }
+           const mainGrid = document.querySelector('.main-grid');
+           if (mainGrid) {
+               mainGrid.scrollIntoView({ behavior: 'smooth' });
+           }
+       }
+
+       // Alert System
+       function showAlert(message, type) {
+           const existingAlert = document.querySelector('.alert');
+           if (existingAlert) {
+               existingAlert.remove();
+           }
+
+           const alert = document.createElement('div');
+           alert.className = `alert alert-${type}`;
+           alert.innerHTML = `
+               <span>${type === 'success' ? '✅' : '⚠️'}</span>
+               <span>${message}</span>
+           `;
+
+           const container = document.querySelector('.container');
+           if (container) {
+               container.insertBefore(alert, container.firstChild.nextSibling);
+               
+               setTimeout(() => {
+                   if (alert && alert.parentNode) {
+                       alert.remove();
+                   }
+               }, 4000);
+           }
+       }
+
+       // Helper function for global access to removeItem
+       window.removeItem = removeItem;
+    </script>
+</body>
+</html>
